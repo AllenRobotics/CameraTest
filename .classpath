@@ -2,10 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/opencv-2.4.13/build/java/opencv-2413.jar"/>
-	<classpathentry kind="lib" path="C:/javacv-bin/opencv-windows-x86_64.jar"/>
-	<classpathentry kind="lib" path="C:/javacv-bin/javacv.jar"/>
-	<classpathentry kind="lib" path="C:/javacv-bin/javacpp.jar"/>
-	<classpathentry kind="lib" path="C:/javacv-bin/javacv-platform.jar"/>
+	<classpathentry kind="lib" path="C:/Users/btaylor/workspace/CV2017.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv-2.4.13"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
