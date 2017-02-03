@@ -97,7 +97,7 @@ public class CameraMain {
 
 						cameraFrame.displayFps(actualFps);
 						cv2017Frame.displayFps(actualFps);
-						if (cvResult != null) {
+						if (cvResult != null && cvResult.didSucceed) {
 							cv2017Frame.displayDistance(cvResult.distance);
 							cv2017Frame.displayTargetPoint(cvResult.targetPoint);
 						}
