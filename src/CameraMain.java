@@ -12,8 +12,10 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.highgui.VideoCapture;
 import org.usfirst.frc.team5417.cv2017.ChannelRange;
+import org.usfirst.frc.team5417.cv2017.ComputerVisionResult;
 import org.usfirst.frc.team5417.cv2017.ImageReader;
 import org.usfirst.frc.team5417.cv2017.MatrixUtilities;
+import org.usfirst.frc.team5417.cv2017.NTimesPerSecond;
 import org.usfirst.frc.team5417.cv2017.customops.BooleanMatrix;
 
 public class CameraMain {
@@ -74,6 +76,8 @@ public class CameraMain {
 				VideoFrame cv2017Frame = new VideoFrame("CV2017", cv2017Source);
 				cv2017Frame.setVisible(true);
 
+				NTimesPerSecond timesPerSecond = new NTimesPerSecond(fps);
+				
 				Runtime.getRuntime().addShutdownHook(new Thread() {
 					@Override
 					public void run() {
@@ -86,9 +90,24 @@ public class CameraMain {
 					public void actionPerformed(ActionEvent e) {
 						cameraFrame.repaint();
 						cv2017Frame.repaint();
+						
+						double actualFps = timesPerSecond.fps();
+						
+						ComputerVisionResult cvResult = cv2017Source.getLastCvResult();
+
+						cameraFrame.displayFps(actualFps);
+						cv2017Frame.displayFps(actualFps);
+						if (cvResult != null) {
+							cv2017Frame.displayDistance(cvResult.distance);
+							cv2017Frame.displayTargetPoint(cvResult.targetPoint);
+						}
+						
+						updateTimer.setDelay(timesPerSecond.nextDelayMs());
 						updateTimer.restart();
 					}
 				};
+
+				timesPerSecond.start();
 
 				updateTimer = new Timer((int) (1000.0 / fps), updater);
 				updateTimer.start();

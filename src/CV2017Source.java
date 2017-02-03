@@ -7,6 +7,7 @@ import org.usfirst.frc.team5417.cv2017.ComputerVision2017;
 import org.usfirst.frc.team5417.cv2017.ComputerVisionResult;
 import org.usfirst.frc.team5417.cv2017.ImageReader;
 import org.usfirst.frc.team5417.cv2017.customops.BooleanMatrix;
+import org.usfirst.frc.team5417.cv2017.customops.PointD;
 
 public class CV2017Source implements VideoSource {
 
@@ -16,6 +17,8 @@ public class CV2017Source implements VideoSource {
 	private int removeGroupsSmallerThan;
 	private double minimumTemplateScale, maximumTemplateScale, minimumTemplateMatchPercentage;
 	private List<BooleanMatrix> templatesToUse;
+	
+	private ComputerVisionResult lastCvResult;
 
 	public CV2017Source(VideoSource source, ChannelRange c1Range, ChannelRange c2Range, ChannelRange c3Range,
 			int dilateErodeKernelSize, int removeGroupsSmallerThan, double minimumTemplateScale,
@@ -66,16 +69,25 @@ public class CV2017Source implements VideoSource {
 			Math.max(this.getWidth(), this.getHeight()), c1Range, c2Range, c3Range, dilateErodeKernelSize,
 			removeGroupsSmallerThan, minimumTemplateScale, maximumTemplateScale, minimumTemplateMatchPercentage,
 			templatesToUse);
+
+//			ComputerVisionResult cvResult = new ComputerVisionResult();
+//			cvResult.didSucceed = false;
+//			cvResult.distance = -1;
+//			cvResult.targetPoint = new PointD(-1, -1);
+//			cvResult.visionResult = m;
 			
+			this.lastCvResult = cvResult;
+
 			Mat result = new Mat();
 			cvResult.visionResult.assignTo(result, CvType.CV_8UC3);
 			
-			if (cvResult.didSucceed) {
-				System.out.println("Distance: " + cvResult.distance + ", Target Point: (" + cvResult.targetPoint.getX() + "," + cvResult.targetPoint.getY() +")");
-			}
-			else {
-				System.out.println("Did not find exactly 2 groups!");
-			}
+			// LEAVE ME COMMENTED EXCEPT FOR DEBUGGING
+//			if (cvResult.didSucceed) {
+//				System.out.println("Distance: " + cvResult.distance + ", Target Point: (" + cvResult.targetPoint.getX() + "," + cvResult.targetPoint.getY() +")");
+//			}
+//			else {
+//				System.out.println("Did not find exactly 2 groups!");
+//			}
 			
 			return result;
 
@@ -85,6 +97,10 @@ public class CV2017Source implements VideoSource {
 			return m;
 		}
 
+	}
+	
+	public ComputerVisionResult getLastCvResult() {
+		return this.lastCvResult;
 	}
 
 }
