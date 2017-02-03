@@ -37,14 +37,14 @@ public class CameraMain {
 		List<BooleanMatrix> horizontalTemplates = new ArrayList<BooleanMatrix>();
 		// horizontalTemplates.add(new BooleanMatrix(40, 150, true));
 		// horizontalTemplates.add(new BooleanMatrix(20, 150, true));
-		horizontalTemplates.add(new BooleanMatrix(13, 50, true));
-		horizontalTemplates.add(new BooleanMatrix(7, 50, true));
+		horizontalTemplates.add(new BooleanMatrix(20, 75, true));
+		horizontalTemplates.add(new BooleanMatrix(10, 75, true));
 
 		List<BooleanMatrix> verticalTemplates = new ArrayList<BooleanMatrix>();
 		// verticalTemplates.add(new BooleanMatrix(150, 40, true));
 		// verticalTemplates.add(new BooleanMatrix(150, 20, true));
-		verticalTemplates.add(new BooleanMatrix(50, 13, true));
-		verticalTemplates.add(new BooleanMatrix(50, 7, true));
+		verticalTemplates.add(new BooleanMatrix(75, 20, true));
+		verticalTemplates.add(new BooleanMatrix(75, 10, true));
 
 		List<BooleanMatrix> templatesToUse = horizontalTemplates;
 
@@ -59,7 +59,7 @@ public class CameraMain {
 
 		int dilateErodeKernelSize = 11;
 		int removeGroupsSmallerThan = 100;
-		double minimumTemplateScale = 0.25, maximumTemplateScale = 4;
+		double minimumTemplateScale = 0.25, maximumTemplateScale = 9;
 		double minimumTemplateMatchPercentage = 0.7;
 
 		CameraSource cameraSource = new CameraSource(WEBCAM_DEVICE_INDEX, captureWidth, captureHeight);

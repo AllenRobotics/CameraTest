@@ -62,7 +62,7 @@ public class CV2017Source implements VideoSource {
 				public Mat read() {
 					Mat frame = source.nextFrame();
 					Mat f32f = new Mat();
-					frame.assignTo(f32f, CvType.CV_32F);
+					frame.assignTo(f32f, CvType.CV_32FC3);
 					return f32f;
 				}
 			},
