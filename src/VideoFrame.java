@@ -11,6 +11,7 @@ import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -19,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
 
 import org.opencv.core.Mat;
+import org.usfirst.frc.team5417.cv2017.MatrixUtilities;
 import org.usfirst.frc.team5417.cv2017.customops.PointD;
 
 public class VideoFrame extends JFrame {
@@ -62,21 +64,25 @@ public class VideoFrame extends JFrame {
 		private String fpsText;
 		private String distanceText;
 		private String targetPointText;
+		
+		private DecimalFormat decimalFormat = new DecimalFormat("0.00");
+
 
 		public VideoComponent(VideoSource source) {
 			this.source = source;
 		}
 
 		public void displayFps(double actualFps) {
-			fpsText = "fps: " + actualFps;
+			fpsText = "fps: " + decimalFormat.format(actualFps);
 		}
 
 		public void displayDistance(double actualDistance) {
-			distanceText = "pixel distance: " + actualDistance;
+			distanceText = "pixel distance: " + decimalFormat.format(actualDistance);
 		}
 
 		public void displayTargetPoint(PointD targetPoint) {
-			targetPointText = "target point: (" + targetPoint.getX() + "," + targetPoint.getY() + ")";
+			targetPointText = 
+					"target point: (" + decimalFormat.format(targetPoint.getX()) + "," + decimalFormat.format(targetPoint.getY()) + ")";
 		}
 
 		@Override
@@ -87,6 +93,9 @@ public class VideoFrame extends JFrame {
 			this.setBackground(Color.white);
 			
 			Mat m = source.nextFrame();
+			if (m.channels() == 3) {
+				m = MatrixUtilities.reverseColorChannels(m);
+			}
 			BufferedImage image = mat2Img.getImage(m);
 
 			g.drawImage(image, 0, 0, source.getWidth(), source.getHeight(), this);

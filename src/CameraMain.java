@@ -23,8 +23,8 @@ public class CameraMain {
 	private static final double NTSC_FPS = 29.97;
 
 	private static final int WEBCAM_DEVICE_INDEX = 0;
-	private static final int captureWidth = 640;
-	private static final int captureHeight = 480;
+	private static final int captureWidth = 320;
+	private static final int captureHeight = 240;
 	private static final double fps = NTSC_FPS;
 
 	private static Timer updateTimer;
@@ -53,13 +53,13 @@ public class CameraMain {
 //		ChannelRange satRange = new ChannelRange(.7, 1.0);
 //		ChannelRange valRange = new ChannelRange(220, 256);
 
-		ChannelRange hueRange = new ChannelRange(100, 180);
-		ChannelRange satRange = new ChannelRange(0.6, 1.0);
-		ChannelRange valRange = new ChannelRange(200, 256);
+		ChannelRange hueRange = new ChannelRange(150, 200);
+		ChannelRange satRange = new ChannelRange(0.2, 1.0);
+		ChannelRange valRange = new ChannelRange(180, 256);
 
-		int dilateErodeKernelSize = 11;
+		int dilateErodeKernelSize = 7;
 		int removeGroupsSmallerThan = 100;
-		double minimumTemplateScale = 0.25, maximumTemplateScale = 9;
+		double minimumTemplateScale = 0.1, maximumTemplateScale = 9;
 		double minimumTemplateMatchPercentage = 0.7;
 
 		CameraSource cameraSource = new CameraSource(WEBCAM_DEVICE_INDEX, captureWidth, captureHeight);

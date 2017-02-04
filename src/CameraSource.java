@@ -2,6 +2,7 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
+import org.usfirst.frc.team5417.cv2017.MatrixUtilities;
 import org.usfirst.frc.team5417.cv2017.Stopwatch;
 
 public class CameraSource implements VideoSource {
