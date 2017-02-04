@@ -47,7 +47,21 @@ public class CameraMain {
 		// verticalTemplates.add(new BooleanMatrix(150, 60, true));
 		verticalTemplates.add(new BooleanMatrix(75, 30, true));
 
-		List<BooleanMatrix> templatesToUse = horizontalTemplates;
+		List<BooleanMatrix> templatesToUse = verticalTemplates;
+		double[] gearLookUpTable = {
+				500,	//0 feet
+				199,	//1 foot
+				110,
+				77.5,
+				57,
+				45.5,
+				39,
+				33,
+				29,
+				25		//9 feet
+		};
+		
+		double[] lookUpTableToUse = gearLookUpTable;
 
 		// Real images HSV
 //		ChannelRange hueRange = new ChannelRange(130, 180);
@@ -66,7 +80,7 @@ public class CameraMain {
 		CameraSource cameraSource = new CameraSource(WEBCAM_DEVICE_INDEX, captureWidth, captureHeight);
 		CV2017Source cv2017Source = new CV2017Source(cameraSource, hueRange, satRange, valRange, dilateErodeKernelSize,
 				removeGroupsSmallerThan, minimumTemplateScale, maximumTemplateScale, minimumTemplateMatchPercentage,
-				templatesToUse);
+				templatesToUse, lookUpTableToUse);
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

@@ -24,6 +24,8 @@ import org.usfirst.frc.team5417.cv2017.MatrixUtilities;
 import org.usfirst.frc.team5417.cv2017.TimedMovingAverage;
 import org.usfirst.frc.team5417.cv2017.customops.PointD;
 
+import edu.wpi.first.wpilibj.PIDSourceType;
+
 public class VideoFrame extends JFrame {
 
 	private class Mat2Image {
@@ -168,7 +170,6 @@ public class VideoFrame extends JFrame {
 	private TimedMovingAverage targetPointXMovingAverage = new TimedMovingAverage(3.0);
 	private TimedMovingAverage targetPointYMovingAverage = new TimedMovingAverage(3.0);
 	
-
 	public VideoFrame(String title, VideoSource source) {
 		this.setTitle(title);
 		this.setSize(source.getWidth(), source.getHeight());
@@ -179,7 +180,7 @@ public class VideoFrame extends JFrame {
 
 	public void displayFps(double instantaneousFps) {
 		fpsMovingAverage.recordDataPoint(instantaneousFps);
-		this.video.displayFps(fpsMovingAverage.average());
+		this.video.displayFps(fpsMovingAverage.average());	
 	}
 
 	public void displayDistance(double actualDistance) {

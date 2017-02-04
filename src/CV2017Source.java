@@ -17,12 +17,13 @@ public class CV2017Source implements VideoSource {
 	private int removeGroupsSmallerThan;
 	private double minimumTemplateScale, maximumTemplateScale, minimumTemplateMatchPercentage;
 	private List<BooleanMatrix> templatesToUse;
+	private double[] distanceLookUpTable;
 	
 	private ComputerVisionResult lastCvResult;
 
 	public CV2017Source(VideoSource source, ChannelRange c1Range, ChannelRange c2Range, ChannelRange c3Range,
 			int dilateErodeKernelSize, int removeGroupsSmallerThan, double minimumTemplateScale,
-			double maximumTemplateScale, double minimumTemplateMatchPercentage, List<BooleanMatrix> templatesToUse) {
+			double maximumTemplateScale, double minimumTemplateMatchPercentage, List<BooleanMatrix> templatesToUse, double[] distanceLookUpTable) {
 
 		this.source = source;
 
@@ -35,6 +36,8 @@ public class CV2017Source implements VideoSource {
 		this.maximumTemplateScale = maximumTemplateScale;
 		this.minimumTemplateMatchPercentage = minimumTemplateMatchPercentage;
 		this.templatesToUse = templatesToUse;
+		this.distanceLookUpTable = distanceLookUpTable;
+		
 	}
 
 	public void setTemplatesToUse(List<BooleanMatrix> templatesToUse) {
@@ -68,7 +71,7 @@ public class CV2017Source implements VideoSource {
 			},
 			Math.max(this.getWidth(), this.getHeight()), c1Range, c2Range, c3Range, dilateErodeKernelSize,
 			removeGroupsSmallerThan, minimumTemplateScale, maximumTemplateScale, minimumTemplateMatchPercentage,
-			templatesToUse);
+			templatesToUse, distanceLookUpTable);
 
 //			ComputerVisionResult cvResult = new ComputerVisionResult();
 //			cvResult.didSucceed = false;
