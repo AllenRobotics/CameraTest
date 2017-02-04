@@ -21,6 +21,7 @@ import javax.swing.OverlayLayout;
 
 import org.opencv.core.Mat;
 import org.usfirst.frc.team5417.cv2017.MatrixUtilities;
+import org.usfirst.frc.team5417.cv2017.TimedMovingAverage;
 import org.usfirst.frc.team5417.cv2017.customops.PointD;
 
 public class VideoFrame extends JFrame {
@@ -162,6 +163,12 @@ public class VideoFrame extends JFrame {
 
 	private VideoComponent video;
 
+	private TimedMovingAverage fpsMovingAverage = new TimedMovingAverage(3.0);
+	private TimedMovingAverage distanceMovingAverage = new TimedMovingAverage(3.0);
+	private TimedMovingAverage targetPointXMovingAverage = new TimedMovingAverage(3.0);
+	private TimedMovingAverage targetPointYMovingAverage = new TimedMovingAverage(3.0);
+	
+
 	public VideoFrame(String title, VideoSource source) {
 		this.setTitle(title);
 		this.setSize(source.getWidth(), source.getHeight());
@@ -170,16 +177,20 @@ public class VideoFrame extends JFrame {
 		this.add(this.video);
 	}
 
-	public void displayFps(double actualFps) {
-		this.video.displayFps(actualFps);
+	public void displayFps(double instantaneousFps) {
+		fpsMovingAverage.recordDataPoint(instantaneousFps);
+		this.video.displayFps(fpsMovingAverage.average());
 	}
 
 	public void displayDistance(double actualDistance) {
-		this.video.displayDistance(actualDistance);
+		distanceMovingAverage.recordDataPoint(actualDistance);
+		this.video.displayDistance(distanceMovingAverage.average());
 	}
 
 	public void displayTargetPoint(PointD targetPoint) {
-		this.video.displayTargetPoint(targetPoint);
+		targetPointXMovingAverage.recordDataPoint(targetPoint.getX());
+		targetPointYMovingAverage.recordDataPoint(targetPoint.getY());
+		this.video.displayTargetPoint(new PointD(targetPointXMovingAverage.average(), targetPointYMovingAverage.average()));
 	}
 
 }

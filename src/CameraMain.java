@@ -16,6 +16,7 @@ import org.usfirst.frc.team5417.cv2017.ComputerVisionResult;
 import org.usfirst.frc.team5417.cv2017.ImageReader;
 import org.usfirst.frc.team5417.cv2017.MatrixUtilities;
 import org.usfirst.frc.team5417.cv2017.NTimesPerSecond;
+import org.usfirst.frc.team5417.cv2017.Stopwatch;
 import org.usfirst.frc.team5417.cv2017.customops.BooleanMatrix;
 
 public class CameraMain {
@@ -28,6 +29,8 @@ public class CameraMain {
 	private static final double fps = NTSC_FPS;
 
 	private static Timer updateTimer;
+	
+	private static double lastFrameTimeSeconds;
 
 	static {
 		MatrixUtilities.LoadOpenCVLibraries();
@@ -41,10 +44,8 @@ public class CameraMain {
 		horizontalTemplates.add(new BooleanMatrix(10, 75, true));
 
 		List<BooleanMatrix> verticalTemplates = new ArrayList<BooleanMatrix>();
-		// verticalTemplates.add(new BooleanMatrix(150, 40, true));
-		// verticalTemplates.add(new BooleanMatrix(150, 20, true));
-		verticalTemplates.add(new BooleanMatrix(75, 20, true));
-		verticalTemplates.add(new BooleanMatrix(75, 10, true));
+		// verticalTemplates.add(new BooleanMatrix(150, 60, true));
+		verticalTemplates.add(new BooleanMatrix(75, 30, true));
 
 		List<BooleanMatrix> templatesToUse = horizontalTemplates;
 
@@ -59,7 +60,7 @@ public class CameraMain {
 
 		int dilateErodeKernelSize = 7;
 		int removeGroupsSmallerThan = 100;
-		double minimumTemplateScale = 0.1, maximumTemplateScale = 9;
+		double minimumTemplateScale = 0.1, maximumTemplateScale = (double)captureWidth / verticalTemplates.get(0).rows();
 		double minimumTemplateMatchPercentage = 0.7;
 
 		CameraSource cameraSource = new CameraSource(WEBCAM_DEVICE_INDEX, captureWidth, captureHeight);
@@ -77,6 +78,8 @@ public class CameraMain {
 				cv2017Frame.setVisible(true);
 
 				NTimesPerSecond timesPerSecond = new NTimesPerSecond(fps);
+				Stopwatch now = Stopwatch.startNew();
+				lastFrameTimeSeconds = now.getTotalSeconds();
 				
 				Runtime.getRuntime().addShutdownHook(new Thread() {
 					@Override
@@ -91,12 +94,16 @@ public class CameraMain {
 						cameraFrame.repaint();
 						cv2017Frame.repaint();
 						
-						double actualFps = timesPerSecond.fps();
+						double currentFrameTimeSeconds = now.getTotalSeconds();
+						double elapsedSeconds = currentFrameTimeSeconds - lastFrameTimeSeconds;
+						lastFrameTimeSeconds = currentFrameTimeSeconds;
+						
+						double instantaneousFps = 1.0 / elapsedSeconds;
 						
 						ComputerVisionResult cvResult = cv2017Source.getLastCvResult();
 
-						cameraFrame.displayFps(actualFps);
-						cv2017Frame.displayFps(actualFps);
+						cameraFrame.displayFps(instantaneousFps);
+						cv2017Frame.displayFps(instantaneousFps);
 						if (cvResult != null && cvResult.didSucceed) {
 							cv2017Frame.displayDistance(cvResult.distance);
 							cv2017Frame.displayTargetPoint(cvResult.targetPoint);
