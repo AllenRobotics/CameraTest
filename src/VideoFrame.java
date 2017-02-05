@@ -20,9 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
 
 import org.opencv.core.Mat;
-import org.usfirst.frc.team5417.cv2017.MatrixUtilities;
+import org.usfirst.frc.team5417.cv2017.OpenCV;
 import org.usfirst.frc.team5417.cv2017.TimedMovingAverage;
-import org.usfirst.frc.team5417.cv2017.customops.PointD;
+import org.usfirst.frc.team5417.cv2017.opencvops.PointD;
 
 public class VideoFrame extends JFrame {
 
@@ -95,7 +95,7 @@ public class VideoFrame extends JFrame {
 			
 			Mat m = source.nextFrame();
 			if (m.channels() == 3) {
-				m = MatrixUtilities.reverseColorChannels(m);
+				m = OpenCV.reverseColorChannels(m);
 			}
 			BufferedImage image = mat2Img.getImage(m);
 

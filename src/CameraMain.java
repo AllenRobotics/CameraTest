@@ -14,10 +14,10 @@ import org.opencv.highgui.VideoCapture;
 import org.usfirst.frc.team5417.cv2017.ChannelRange;
 import org.usfirst.frc.team5417.cv2017.ComputerVisionResult;
 import org.usfirst.frc.team5417.cv2017.ImageReader;
-import org.usfirst.frc.team5417.cv2017.MatrixUtilities;
+import org.usfirst.frc.team5417.cv2017.OpenCV;
 import org.usfirst.frc.team5417.cv2017.NTimesPerSecond;
 import org.usfirst.frc.team5417.cv2017.Stopwatch;
-import org.usfirst.frc.team5417.cv2017.customops.BooleanMatrix;
+import org.usfirst.frc.team5417.cv2017.opencvops.BooleanMatrix;
 
 public class CameraMain {
 
@@ -33,7 +33,7 @@ public class CameraMain {
 	private static double lastFrameTimeSeconds;
 
 	static {
-		MatrixUtilities.LoadOpenCVLibraries();
+		OpenCV.LoadLibraries();
 	}
 
 	public static void main(String[] args) throws InterruptedException {
@@ -74,13 +74,13 @@ public class CameraMain {
 		ChannelRange valRange = new ChannelRange(220, 256);
 
 		int dilateErodeKernelSize = 7;
-		int removeGroupsSmallerThan = 30;
-		double minimumTemplateScale = 0.1, maximumTemplateScale = (double)captureWidth / verticalTemplates.get(0).rows();
+		int removeGroupsSmallerThan = 12;
+		int numberOfScaleFactors = 10;
 		double minimumTemplateMatchPercentage = 0.7;
 
 		CameraSource cameraSource = new CameraSource(WEBCAM_DEVICE_INDEX, captureWidth, captureHeight);
 		CV2017Source cv2017Source = new CV2017Source(cameraSource, hueRange, satRange, valRange, dilateErodeKernelSize,
-				removeGroupsSmallerThan, minimumTemplateScale, maximumTemplateScale, minimumTemplateMatchPercentage,
+				removeGroupsSmallerThan, numberOfScaleFactors, minimumTemplateMatchPercentage,
 				templatesToUse, lookUpTableToUse);
 
 		EventQueue.invokeLater(new Runnable() {
