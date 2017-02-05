@@ -24,8 +24,6 @@ import org.usfirst.frc.team5417.cv2017.MatrixUtilities;
 import org.usfirst.frc.team5417.cv2017.TimedMovingAverage;
 import org.usfirst.frc.team5417.cv2017.customops.PointD;
 
-import edu.wpi.first.wpilibj.PIDSourceType;
-
 public class VideoFrame extends JFrame {
 
 	private class Mat2Image {
@@ -184,14 +182,18 @@ public class VideoFrame extends JFrame {
 	}
 
 	public void displayDistance(double actualDistance) {
-		distanceMovingAverage.recordDataPoint(actualDistance);
-		this.video.displayDistance(distanceMovingAverage.average());
+//		distanceMovingAverage.recordDataPoint(actualDistance);
+//		this.video.displayDistance(distanceMovingAverage.average());
+
+		this.video.displayDistance(actualDistance);
 	}
 
 	public void displayTargetPoint(PointD targetPoint) {
-		targetPointXMovingAverage.recordDataPoint(targetPoint.getX());
-		targetPointYMovingAverage.recordDataPoint(targetPoint.getY());
-		this.video.displayTargetPoint(new PointD(targetPointXMovingAverage.average(), targetPointYMovingAverage.average()));
+//		targetPointXMovingAverage.recordDataPoint(targetPoint.getX());
+//		targetPointYMovingAverage.recordDataPoint(targetPoint.getY());
+//		this.video.displayTargetPoint(new PointD(targetPointXMovingAverage.average(), targetPointYMovingAverage.average()));
+
+		this.video.displayTargetPoint(targetPoint);
 	}
 
 }

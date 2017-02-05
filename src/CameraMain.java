@@ -64,16 +64,17 @@ public class CameraMain {
 		double[] lookUpTableToUse = gearLookUpTable;
 
 		// Real images HSV
-//		ChannelRange hueRange = new ChannelRange(130, 180);
-//		ChannelRange satRange = new ChannelRange(.7, 1.0);
-//		ChannelRange valRange = new ChannelRange(220, 256);
+//		ChannelRange hueRange = new ChannelRange(150, 200);
+//		ChannelRange satRange = new ChannelRange(0.2, 1.0);
+//		ChannelRange valRange = new ChannelRange(180, 256);
 
-		ChannelRange hueRange = new ChannelRange(150, 200);
-		ChannelRange satRange = new ChannelRange(0.2, 1.0);
-		ChannelRange valRange = new ChannelRange(180, 256);
+		// Test images HSV
+		ChannelRange hueRange = new ChannelRange(122, 150);
+		ChannelRange satRange = new ChannelRange(0.4, 0.8);
+		ChannelRange valRange = new ChannelRange(220, 256);
 
 		int dilateErodeKernelSize = 7;
-		int removeGroupsSmallerThan = 100;
+		int removeGroupsSmallerThan = 30;
 		double minimumTemplateScale = 0.1, maximumTemplateScale = (double)captureWidth / verticalTemplates.get(0).rows();
 		double minimumTemplateMatchPercentage = 0.7;
 
