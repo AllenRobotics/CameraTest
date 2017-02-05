@@ -37,6 +37,9 @@ public class CameraMain {
 	}
 
 	public static void main(String[] args) throws InterruptedException {
+		
+		System.setProperty("sun.java2d.opengl", "true");
+		
 		List<BooleanMatrix> horizontalTemplates = new ArrayList<BooleanMatrix>();
 		// horizontalTemplates.add(new BooleanMatrix(40, 150, true));
 		// horizontalTemplates.add(new BooleanMatrix(20, 150, true));
@@ -79,17 +82,25 @@ public class CameraMain {
 		double minimumTemplateMatchPercentage = 0.7;
 
 		CameraSource cameraSource = new CameraSource(WEBCAM_DEVICE_INDEX, captureWidth, captureHeight);
-		CV2017Source cv2017Source = new CV2017Source(cameraSource, hueRange, satRange, valRange, dilateErodeKernelSize,
+		CV2017Source cv2017Source = new CV2017Source(captureWidth, captureHeight, hueRange, satRange, valRange, dilateErodeKernelSize,
 				removeGroupsSmallerThan, numberOfScaleFactors, minimumTemplateMatchPercentage,
 				templatesToUse, lookUpTableToUse);
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				VideoFrame cameraFrame = new VideoFrame("LifeCam", cameraSource);
-				cameraFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				
+				Mat cFrame = cameraSource.nextFrame();
+				cv2017Source.setFrame(cFrame);
+				Mat cvFrame = cv2017Source.nextFrame();
+				
+				VideoFrame cameraFrame = new VideoFrame("LifeCam", captureWidth, captureHeight);
+				cameraFrame.setFrame(cFrame);
+				//cameraFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				cameraFrame.setVisible(true);
 				
-				VideoFrame cv2017Frame = new VideoFrame("CV2017", cv2017Source);
+				VideoFrame cv2017Frame = new VideoFrame("CV2017", captureWidth, captureHeight);
+				cv2017Frame.setFrame(cvFrame);
+				cv2017Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				cv2017Frame.setVisible(true);
 
 				NTimesPerSecond timesPerSecond = new NTimesPerSecond(fps);
@@ -106,6 +117,14 @@ public class CameraMain {
 				ActionListener updater = new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						
+						Mat cFrame = cameraSource.nextFrame();
+						cv2017Source.setFrame(cFrame);
+						Mat cvFrame = cv2017Source.nextFrame();
+						
+						cameraFrame.setFrame(cFrame);
+						cv2017Frame.setFrame(cvFrame);
+						
 						cameraFrame.repaint();
 						cv2017Frame.repaint();
 						
