@@ -90,6 +90,7 @@ public class CV2017Source implements VideoSource {
 
 			Mat result = new Mat();
 			cvResult.visionResult.assignTo(result, CvType.CV_8UC3);
+			cvResult.visionResult.release();
 
 			return result;
 
